@@ -1,0 +1,47 @@
+import './App.css';
+import { Component } from 'react';
+import Login from './Login';
+import AuthRedirect from './authRedirect';
+import callApi from './api';
+import utils from './utils';
+import Timer from './Timer';
+import { useNavigate } from "react-router-dom";
+
+const UserBarWrapper = () => {
+    const navigate = useNavigate();
+  
+    return<UserBar navigate={navigate} />;
+  };
+class UserBar extends Component 
+{
+    state = {
+        felh_neptunKod: "",
+        timer: ""
+    }
+    async keepAlive(){
+        await callApi("hallgato/service.asmx/StayAlive","")
+    }
+    async componentDidMount(){
+        console.log("Token expired")
+        var r = await callApi("hallgato/main.aspx?ismenuclick=true&ctrl=0101","",true)
+        var data = await utils.extractUserData(r)
+        if(data.length > 0){
+            this.setState({felh_neptunKod: data[0].value});
+        }else{
+            console.log("Token expired")
+            localStorage.removeItem("loggedIn")
+            const { navigate } = this.props; 
+            navigate("/login");
+        }
+        this.keepAlive();
+    }
+    render(){
+        return(
+        <div className='Userbar'>
+            <p>Bejelentkezve <b>{this.state.felh_neptunKod}</b></p>
+            <Timer timerEnd={this.keepAlive}/>
+        </div>);
+    }
+}
+
+export default  AuthRedirect(UserBarWrapper);

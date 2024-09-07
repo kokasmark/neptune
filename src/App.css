@@ -1,38 +1,269 @@
-.App {
-  text-align: center;
-}
+:root{
+  --color-light: white;
+  --color-dark: #212121;
+  --color-signal: #23adec;
+  
+  --color-background: var(--color-light);
+  --color-text: var(--color-dark);
+  --color-accent: var(--color-signal);
+  
+  --size-bezel: .5rem;
+  --size-radius: 4px;
 
-.App-logo {
-  height: 40vmin;
+  overflow: hidden;
+}
+.rounded-btn{
+  background-color: var(--color-signal);
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: large;
+}
+.page-load{
+  background-color: transparent;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  animation: page-open 1s ease-out;
+  border-radius: 0px 10px 10px 0px;
   pointer-events: none;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.page-redirect{
+  background-color: transparent;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  animation: page-redirect 1s ease-out;
+  border-radius: 0px 10px 10px 0px;
+  pointer-events: none;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Userbar{
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  background-color: var(--color-light);
+  padding-left: 20px;
+  padding-right: 5px;
+  border-radius: 0px 0px 0px 10px;
+  display: flex;
+  gap: 10px;
+}
+.App{
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-signal);
+}
+.App .sidebar{
   display: flex;
   flex-direction: column;
+  position: absolute;
+  width: 300px;
+  height: 100vh;
+  left: 0vw;
+  background-color: var(--color-light);
+  gap: 5px;
+  padding-left: 0px;
+  padding-right: 40px;
+  border-radius: 0px 20px 20px 0px;
+}
+.App .sidebar .menu-link{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0px 10px 10px 0px;
+  padding-left: 10px;
+}
+.App .sidebar .menu-link:hover{
+  background-color: var(--color-signal);
+}
+.App .sidebar .menu-link.logout:hover{
+  background-color: rgb(211, 77, 77);
+}
+.App .menu-orarend{
+  background-color: var(--color-light);
+  position: absolute;
+  left: 20vw;
+  top: 10vh;
+  width: 70vw;
+  height: 70vh;
+  padding: 10px;
+  padding-bottom: 100px;
+  border-radius: 10px;
+
+}
+.App .menu-uzenetek{
+  background-color: var(--color-light);
+  position: absolute;
+  left: 20vw;
+  top: 10vh;
+  width: 70vw;
+  height: 70vh;
+  padding: 10px;
+  padding-bottom: 100px;
+  border-radius: 10px;
+}
+.App .menu-uzenetek .data {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+.App .menu-uzenetek .unopened{
+  color:var(--color-signal);
+}
+.App .menu-uzenetek .opened{
+  opacity: 0.5;
+}
+.App .menu-uzenetek th {
+  text-align: left;
+  padding: 0px 10px 10px 10px;
+}
+.App .menu-uzenetek td{
+  padding: 0px 10px 10px 10px;
+}
+.App .menu-felh-adatok{
+  background-color: white;
+  width: fit-content;
+  height: 50vh;
+  position: absolute;
+  left: 20vw;
+  top: 25vh;
+  padding: 20px 100px 20px 50px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+.App .menu-felh-adatok .data{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 50vh;
+  gap: 5px;
+}
+.App .menu-felh-adatok .data div
+{
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+.App .menu-felh-adatok .data p
+{
+  margin: 0px;
+}
+.Login{
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-signal);
+}
+.Login .inputs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  justify-items: center;
+  position: absolute;
+  gap: 20px;
+  width: 300px;
+  height: 100vh;
+  left: 0vw;
+  background-color: var(--color-light);
+  padding-left: 75px;
+  padding-right: 75px;
+  border-radius: 0px 20px 20px 0px;
 }
 
-.App-link {
-  color: #61dafb;
+.Login .inputs img{
+  transform: scale(1.5) translateY(-80px);
+}
+.input {
+  position: relative;
+  width: fit-content;
+  transform: translateY(-100px);
+}
+.inputs .rounded-btn{
+  transform: translateY(-100px);
+}
+.input-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * 0.5);
+  margin: calc(var(--size-bezel) * 0.75 + 3px) calc(var(--size-bezel) * 0.5);
+  background: var(--color-background);
+  white-space: nowrap;
+  transform: translate(0, 0);
+  transform-origin: 0 0;
+  transition: transform 120ms ease-in;
+  font-weight: bold;
+  line-height: 1.2;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.input-field {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  border: 3px solid currentColor;
+  padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
+  color: currentColor;
+  background: transparent !important;
+  border-radius: var(--size-radius);
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-background) inset;
+  box-shadow: 0 0 0px 1000px var(--color-background) inset;
+  -webkit-text-fill-color: currentColor;
+  transition: background-color 5000s ease-in-out 0s;
+}
+.input-field:focus + .input-label,
+.input-field:not(:placeholder-shown) + .input-label {
+  transform: translate(0.25rem, -65%) scale(0.8);
+  color: var(--color-accent);
+}
+.i-row p{
+  margin: 0px;
+}
+.select-search-input{
+  background-color: var(--color-signal) !important;
+  border-color: var(--color-accent) !important; 
+}
+.select-search-options{
+  background-color: var(--color-signal);
+  padding: 0;
+}
+.select-search-select{
+  background-color: var(--color-signal) !important;
+}
+.select-search-row{
+  margin-bottom: 5px;
+
+}
+.select-search-row button{
+  background-color: var(--color-signal) !important;
+  color: var(--color-light) !important;
+}
+.swal2-confirm{
+  background-color: var(--color-signal) !important;
+}
+@keyframes page-open {
+  0%{
+    backdrop-filter: blur(10px);
   }
-  to {
-    transform: rotate(360deg);
+  100%{
+    backdrop-filter: blur(0px);
+  }
+}
+@keyframes page-redirect {
+  0%{
+    backdrop-filter: blur(0px);
+  }
+  100%{
+    backdrop-filter: blur(10px);
   }
 }
