@@ -1,0 +1,4 @@
+owner: kokasmark
+repo: neptune
+provider: github
+updaterCacheDirName: neptune-updater

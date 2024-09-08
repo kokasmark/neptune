@@ -6,7 +6,7 @@ import 'react-select-search/style.css'
 import callApi from './api';
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
-import PageLoadAnimation from './PageLoadAnim';
+import utils from './utils';
 
 const LoginWrapper = () => {
   const navigate = useNavigate();
@@ -18,20 +18,44 @@ class Login extends Component {
     institutes: [],
     instituteOptions: [],
     twoFAInput: "",
-    loginSuccess: false
+    loginSuccess: false,
+    news: []
   }
   azonositoInput = createRef();
   jelszoInput = createRef();
   pageLoad= createRef();
+  async getNews() {
+    try {
+      // Call the API and get the raw HTML response
+      var r = await callApi("hallgato/login.aspx", "", true);
+  
+      // Use the utils.extractNews to parse the HTML and extract the news
+      var data = await utils.extractNews(r);
+  
+      // Update the state and log it after the update
+      this.setState({ news: data }, () => {
+        // Callback after state update to check if state is correctly set
+        console.log(this.state.news);
+      });
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    }
+  }
+  
   componentDidMount() {
     // Fetch the JSON file from assets
-    var data = require('./assets/institutes.json')
+    var data = require('./assets/institutes.json');
+    
     const instituteOptions = data.map(institute => ({
       name: institute.Name,
       value: institute.Url
     }));
+  
+    // Set institutes and options
     this.setState({ institutes: data, instituteOptions: instituteOptions });
-
+  
+    // Fetch the news
+    this.getNews();
   }
   async checkLoginEnable() {
     const raw = {
@@ -50,7 +74,7 @@ class Login extends Component {
 
     try {
       var d = JSON.parse(cleanedData);
-      if (d.success) {
+      if (d.success && localStorage.getItem("neptune-setting-2fa") == "true") {
         await Swal.fire({
           title: "Kétfaktoros hitelesítés",
           text: "Kérem írja be az authentikáló eszközén jelenleg érvényes 6 számjegyű tokent",
@@ -81,17 +105,26 @@ class Login extends Component {
         }else{
           Swal.fire({ text:"A megadott token formátuma hibás!", icon: "error" })
         }
-      } else {
+      }else if( localStorage.getItem("neptune-setting-2fa") == "false"){
+        await Swal.fire({ text: "Sikeres bejelenkezés!", icon: "success" })
+            this.setState({ loginSuccess: true })
+            localStorage.setItem("loggedIn",true)
+            const { navigate } = this.props;
+            navigate("/");
+      } 
+      else {
         Swal.fire({ text: d.errormessage, icon: "error" })
       }
     } catch (error) {
       console.error("Error parsing JSON: ", error);
     }
   }
+  
   render() {
+    const {news} = this.state;
     return (
       <div className="Login">
-        <div className={this.state.loginSuccess ? 'inputs success' : 'inputs'}>
+        <div className={'inputs'}>
           <img src={require("./assets/logo.png")} />
           <label className="input">
             <input className="input-field" type="text" placeholder=" " ref={this.azonositoInput} />
@@ -110,6 +143,17 @@ class Login extends Component {
             <span className="input-label">Intézmény</span>
           </label>
           <button className='rounded-btn' onClick={() => this.checkLoginEnable()}>Bejelentkezés</button>
+        </div>
+        <div className='news'>
+          <h1>Friss Hírek</h1>
+        {news.map((item, index) => (
+          <div>
+            {item.content.length > 0 && <div className='news-card' key={index}>
+              <h3><b>{item.title}</b></h3>
+              <p>{item.content}</p>
+            </div>}
+          </div>
+          ))}
         </div>
       </div>
     );

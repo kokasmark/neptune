@@ -81,4 +81,25 @@ function extractMessages(htmlString) {
   
     return data;
   }
-export default {extractUserData, extractTable,extractMessages};
+  async function extractNews(htmlString) {
+    // Create a DOM parser
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+  
+    // Get all the news blocks within the table
+    const newsRows = doc.querySelectorAll('table.table_left');
+  
+    // Extract the title and content for each news item
+    const newsData = Array.from(newsRows).map(newsRow => {
+      const titleElement = newsRow.querySelector('.login_news_subject a');
+      const contentElement = newsRow.querySelector('.login_news_content p');
+  
+      return {
+        title: titleElement ? titleElement.textContent.trim() : '',
+        content: contentElement ? contentElement.textContent.trim() : ''
+      };
+    });
+  
+    return newsData;
+  }
+export default {extractUserData, extractTable,extractMessages,extractNews};

@@ -7,6 +7,8 @@ import { FaUser } from "react-icons/fa";
 import { VscSignOut } from "react-icons/vsc";
 import { FaCalendarCheck } from "react-icons/fa6";
 import { FaMessage } from "react-icons/fa6";
+import { FaGear } from "react-icons/fa6";
+import { FaNoteSticky } from "react-icons/fa6";
 
 import callApi from './api';
 import utils from './utils'
@@ -16,13 +18,17 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Swal from 'sweetalert2';
+import Switch from 'react-ios-switch';
+import ToggleSwitch from './ToggleSwitch';
+import Notes from './Notes';
 
 const localizer = momentLocalizer(moment)
 class App extends Component {
   calendarRef = createRef();
   state={
     openedMenu: "",
-    openedMenuData: []
+    openedMenuData: [],
+    openedJegyzet:""
   }
   async getFelhAdatok(){
     var r = await callApi("hallgato/main.aspx?ismenuclick=true&ctrl=0101","",true)
@@ -73,26 +79,56 @@ class App extends Component {
     window.location.reload()
   }
   classDetail(e){
-    Swal.fire({title: e.title, text:`${e.location} - ${e.teachers}`})
+    Swal.fire({title: e.title, confirmButtonText: "Jegyzetek", showDenyButton:true,
+      denyButtonText:"Bezárás",text:`${e.location} - ${e.teachers}`}).then((data) =>{
+        if(data.isConfirmed){
+          this.setState({openedMenu: "jegyzetek", openedJegyzet: e.title})
+        }
+      })
+  }
+  changeDisplayMode(isDarkMode) {
+    // const root = document.documentElement;
+  
+    // if (isDarkMode) {
+
+    //   root.style.setProperty('--color-background', '--color-dark');
+    //   root.style.setProperty('--color-text', '--color-light');
+    //   root.style.setProperty('--color-accent', '--color-signal-dark');
+    // } else {
+    //   // Set light mode CSS variables
+    //   root.style.setProperty('--color-background', '--color-light');
+    //   root.style.setProperty('--color-text', '--color-dark');
+    //   root.style.setProperty('--color-accent', '--color-signal');
+    // }
   }
   render(){
     const data = this.state.openedMenuData; 
     return (
-      <div className="App">
+      <div className="App" id="app">
         <UserBarWrapper/>
         <div className='sidebar'>
-        <img src={require("./assets/logo.png")} style={{paddingLeft: 20, paddingTop: 50}}/>
+        <img src={require("./assets/logo.png")} 
+        style={{paddingLeft: 0, paddingTop: 50, cursor: 'pointer'}} 
+        onClick={()=>this.setState({openedMenu: ''})}/>
           <div className='menu-link' onClick={()=> this.getFelhAdatok()}>
-            <FaUser />
+          <FaUser />
             <p>Felhasználói Adatok</p>
           </div>
           <div className='menu-link' onClick={()=> this.getOrarend()}>
-            <FaCalendarCheck />
+          <FaCalendarCheck />
             <p>Órarend</p>
           </div>
           <div className='menu-link' onClick={()=> this.getUzenetek()}>
             <FaMessage />
             <p>Üzenetek</p>
+          </div>
+          <div className='menu-link' onClick={()=> this.setState({openedMenu: "jegyzetek",openedJegyzet: ""})}>
+          <FaNoteSticky />
+          <p>Jegyzetek</p>
+          </div>
+          <div className='menu-link' onClick={()=> this.setState({openedMenu: "beallitasok"})}>
+          <FaGear />
+          <p>Beállítások</p>
           </div>
           <div className='menu-link logout' onClick={()=> this.logout()}>
             <VscSignOut />
@@ -100,7 +136,7 @@ class App extends Component {
           </div>
         </div>
         {this.state.openedMenu == "felhasznaloAdatok" &&
-        <div className='menu-felh-adatok'>
+        <div className='menu-felh-adatok menu'>
           <h1>Felhasználói Adatok</h1>
           <div className='data'>
             {
@@ -113,10 +149,11 @@ class App extends Component {
         </div>}
 
         {this.state.openedMenu == "orarend" &&
-        <div className='menu-orarend'>
+        <div className='menu-orarend menu'>
           <h1>Órarend</h1>
           <Calendar localizer={localizer} 
-            views={['month', 'week']} 
+            views={['month','work_week','day']}
+            defaultView='work_week'
             events={data} 
             startAccessor="start"
             endAccessor="end" ref={this.calendarRef}
@@ -127,7 +164,7 @@ class App extends Component {
 
         </div>}
         {this.state.openedMenu == "uzenetek" &&
-        <div className='menu-uzenetek'>
+        <div className='menu-uzenetek menu'>
           <h1>Üzenetek</h1>
           <div className="data">
           <table>
@@ -149,6 +186,42 @@ class App extends Component {
             </tbody>
           </table>
         </div>
+        </div>}
+        {this.state.openedMenu == "jegyzetek" && <Notes folder={this.state.openedJegyzet}/>}
+        {this.state.openedMenu == "beallitasok" &&<div className='menu-beallitasok menu'>
+         <h1>Beállítások</h1>
+         <div className='settings'>
+          <div className='setting'>
+            <p>2FA bejelenkezésnél</p>
+            <ToggleSwitch name={"2fa"} defaultValue={true}/>
+          </div>
+          <div className='setting'>
+            <p>Ékszakai Mód</p>
+            <ToggleSwitch name={"night-mode"} defaultValue={false} onChange={this.changeDisplayMode()}/>
+          </div>
+         </div>
+        </div>}
+        {this.state.openedMenu == "" &&<div className='home menu'>
+              <div className='home-card' onClick={()=> this.getFelhAdatok()}>
+                <FaUser />
+                <p>Felhasználói Adatok</p>
+              </div>
+              <div className='home-card' onClick={()=> this.getOrarend()}>
+              <FaCalendarCheck />
+              <p>Órarend</p>
+              </div>
+              <div className='home-card' onClick={()=> this.getUzenetek()}>
+              <FaMessage />
+              <p>Üzenetek</p>
+              </div>
+              <div className='home-card' onClick={()=> this.setState({openedMenu: "jegyzetek",openedJegyzet: ""})}>
+              <FaNoteSticky />
+              <p>Jegyzetek</p>
+              </div>
+              <div className='home-card' onClick={()=> this.setState({openedMenu: "beallitasok"})}>
+              <FaGear />
+              <p>Beállítások</p>
+              </div>
         </div>}
       </div>
     );
