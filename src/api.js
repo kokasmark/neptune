@@ -20,7 +20,7 @@ const requestOptions = {
 };
 
 try {
-  const response = await fetch(route, requestOptions);
+  const response = await fetch(`https://cors-anywhere.herokuapp.com/https://netw8.nnet.sze.hu/${route}`, requestOptions);
   if(!doc){
   const result = await response.json();
   return result;

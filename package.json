@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "https://netw8.nnet.sze.hu",
-  "main": "public/electron.js",
-  "homepage": "https://kokasmark.github.io/neptune",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
