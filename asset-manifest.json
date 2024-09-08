@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "./static/css/main.797fffd4.css",
-    "main.js": "./static/js/main.430b6c61.js",
-    "static/media/logo.png": "./static/media/logo.e41d396e0d2fd870ac5f.png",
-    "static/media/logo.svg": "./static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "./index.html",
-    "main.797fffd4.css.map": "./static/css/main.797fffd4.css.map",
-    "main.430b6c61.js.map": "./static/js/main.430b6c61.js.map"
+    "main.css": "/neptune/static/css/main.797fffd4.css",
+    "main.js": "/neptune/static/js/main.0b76f8dd.js",
+    "static/media/logo.png": "/neptune/static/media/logo.e41d396e0d2fd870ac5f.png",
+    "static/media/logo.svg": "/neptune/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/neptune/index.html",
+    "main.797fffd4.css.map": "/neptune/static/css/main.797fffd4.css.map",
+    "main.0b76f8dd.js.map": "/neptune/static/js/main.0b76f8dd.js.map"
   },
   "entrypoints": [
     "static/css/main.797fffd4.css",
-    "static/js/main.430b6c61.js"
+    "static/js/main.0b76f8dd.js"
   ]
 }
