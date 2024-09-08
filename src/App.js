@@ -4,11 +4,12 @@ import Login from './Login';
 import AuthRedirect from './authRedirect';
 
 import { FaUser } from "react-icons/fa";
-import { VscSignOut } from "react-icons/vsc";
+
 import { FaCalendarCheck } from "react-icons/fa6";
 import { FaMessage } from "react-icons/fa6";
 import { FaGear } from "react-icons/fa6";
 import { FaNoteSticky } from "react-icons/fa6";
+import { IoArrowBack } from "react-icons/io5";
 
 import callApi from './api';
 import utils from './utils'
@@ -74,9 +75,8 @@ class App extends Component {
     console.log(data)
     this.setState({openedMenu: "uzenetek",openedMenuData: data})
   }
-  async logout(){
-    localStorage.removeItem("loggedIn")
-    window.location.reload()
+  backToMenu(){
+    this.setState({openedMenu: ""})
   }
   classDetail(e){
     Swal.fire({title: e.title, confirmButtonText: "Jegyzetek", showDenyButton:true,
@@ -106,37 +106,18 @@ class App extends Component {
     return (
       <div className="App" id="app">
         <UserBarWrapper/>
-        <div className='sidebar'>
-        <img src={require("./assets/logo.png")} 
-        style={{paddingLeft: 0, paddingTop: 50, cursor: 'pointer'}} 
-        onClick={()=>this.setState({openedMenu: ''})}/>
-          <div className='menu-link' onClick={()=> this.getFelhAdatok()}>
-          <FaUser />
-            <p>Felhasználói Adatok</p>
-          </div>
-          <div className='menu-link' onClick={()=> this.getOrarend()}>
-          <FaCalendarCheck />
-            <p>Órarend</p>
-          </div>
-          <div className='menu-link' onClick={()=> this.getUzenetek()}>
-            <FaMessage />
-            <p>Üzenetek</p>
-          </div>
-          <div className='menu-link' onClick={()=> this.setState({openedMenu: "jegyzetek",openedJegyzet: ""})}>
-          <FaNoteSticky />
-          <p>Jegyzetek</p>
-          </div>
-          <div className='menu-link' onClick={()=> this.setState({openedMenu: "beallitasok"})}>
-          <FaGear />
-          <p>Beállítások</p>
-          </div>
-          <div className='menu-link logout' onClick={()=> this.logout()}>
-            <VscSignOut />
-            <p>Kijelentkezés</p>
-          </div>
-        </div>
+        <img 
+        src={require("./assets/logo-light.png")} 
+        className="logo"
+        style={{filter: this.state.openedMenu == "" ? "opacity(1)" : "opacity(0)" }}/>
         {this.state.openedMenu == "felhasznaloAdatok" &&
         <div className='menu-felh-adatok menu'>
+          <div className='back-to-menu' 
+          onClick={()=>this.backToMenu()}
+          style={{transform: "translate(-50px,-45px)"}}>
+            <IoArrowBack />
+            <p>Vissza</p>
+          </div>
           <h1>Felhasználói Adatok</h1>
           <div className='data'>
             {
@@ -150,6 +131,11 @@ class App extends Component {
 
         {this.state.openedMenu == "orarend" &&
         <div className='menu-orarend menu'>
+          <div className='back-to-menu' 
+          onClick={()=>this.backToMenu()}>
+            <IoArrowBack />
+            <p>Vissza</p>
+          </div>
           <h1>Órarend</h1>
           <Calendar localizer={localizer} 
             views={['month','work_week','day']}
@@ -165,6 +151,10 @@ class App extends Component {
         </div>}
         {this.state.openedMenu == "uzenetek" &&
         <div className='menu-uzenetek menu'>
+          <div className='back-to-menu' onClick={()=>this.backToMenu()}>
+            <IoArrowBack />
+            <p>Vissza</p>
+          </div>
           <h1>Üzenetek</h1>
           <div className="data">
           <table>
@@ -187,8 +177,13 @@ class App extends Component {
           </table>
         </div>
         </div>}
-        {this.state.openedMenu == "jegyzetek" && <Notes folder={this.state.openedJegyzet}/>}
+        {this.state.openedMenu == "jegyzetek" && 
+        <Notes folder={this.state.openedJegyzet} callback={()=>this.backToMenu()}/>}
         {this.state.openedMenu == "beallitasok" &&<div className='menu-beallitasok menu'>
+          <div className='back-to-menu' onClick={()=>this.backToMenu()}>
+            <IoArrowBack />
+            <p>Vissza</p>
+          </div>
          <h1>Beállítások</h1>
          <div className='settings'>
           <div className='setting'>
@@ -202,23 +197,33 @@ class App extends Component {
          </div>
         </div>}
         {this.state.openedMenu == "" &&<div className='home menu'>
-              <div className='home-card' onClick={()=> this.getFelhAdatok()}>
+              <div className='home-card' 
+              onClick={()=> this.getFelhAdatok()}
+              style={{animationDelay: "0s"}}>
                 <FaUser />
                 <p>Felhasználói Adatok</p>
               </div>
-              <div className='home-card' onClick={()=> this.getOrarend()}>
+              <div className='home-card' 
+              onClick={()=> this.getOrarend()}
+              style={{animationDelay: "0.2s"}}>
               <FaCalendarCheck />
               <p>Órarend</p>
               </div>
-              <div className='home-card' onClick={()=> this.getUzenetek()}>
+              <div className='home-card' 
+              onClick={()=> this.getUzenetek()}
+              style={{animationDelay: "0.4s"}}>
               <FaMessage />
               <p>Üzenetek</p>
               </div>
-              <div className='home-card' onClick={()=> this.setState({openedMenu: "jegyzetek",openedJegyzet: ""})}>
+              <div className='home-card' 
+              onClick={()=> this.setState({openedMenu: "jegyzetek",openedJegyzet: ""})}
+              style={{animationDelay: "0.6s"}}>
               <FaNoteSticky />
               <p>Jegyzetek</p>
               </div>
-              <div className='home-card' onClick={()=> this.setState({openedMenu: "beallitasok"})}>
+              <div className='home-card' 
+              onClick={()=> this.setState({openedMenu: "beallitasok"})}
+              style={{animationDelay: "0.8s"}}>
               <FaGear />
               <p>Beállítások</p>
               </div>

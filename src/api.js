@@ -13,7 +13,7 @@ async function callApi(route, r, doc = false) {
     body: raw,
     redirect: "follow"
   };
-
+  const apiUrl = 'https://cors-anywhere.herokuapp.com/https://netw8.nnet.sze.hu';
   if(!cache[route]){
     console.log(`${route} from neptun`)
     try {

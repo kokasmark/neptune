@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import { FaSave } from "react-icons/fa";
+import { IoArrowBack } from "react-icons/io5";
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -125,6 +126,10 @@ class Notes extends Component {
     render() {
         return (
             <div className='Notes menu'>
+                <div className='back-to-menu' onClick={()=>this.props.callback()}>
+                    <IoArrowBack />
+                    <p>Vissza</p>
+                </div>
                 <h1>{this.state.folder != "" ? `${this.state.folder} jegyzetek` : 'Jegyzetek'}</h1>
                 {this.state.folder != "" &&
                     <div>

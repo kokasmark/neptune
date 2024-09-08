@@ -65,7 +65,7 @@ class Timer extends Component {
     const { timeRemaining } = this.state;
     return (
       <div>
-        <p>| {this.formatTime(timeRemaining)}</p>
+        <p>{this.formatTime(timeRemaining)}</p>
       </div>
     );
   }

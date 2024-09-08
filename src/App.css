@@ -13,31 +13,82 @@
 
   overflow: hidden;
 }
+.logo{
+  position: fixed;
+  height: 70vh;
+  left: 32vw;
+  top: -15vh;
+  transition: 0.5s;
+}
+.back-to-menu{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  font-size: 20px;
+  color: var(--color-accent);
+  cursor: pointer;
+  transition: 0.1s;
+  margin: 0px;
+  height: 30px;
+  width: 100px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  margin: 0px;
+  margin-bottom: -30px;
+  transform: translate(-10px,-35px);
+  background-color: var(--color-background);
+  border-radius: 10px 10px 0px 0px;
+}
+.back-to-menu:hover svg{
+  animation: back-button 0.5s linear;
+  
+}
 .rounded-btn{
   background-color: var(--color-accent);
   padding: 10px;
   border: none;
   border-radius: 10px;
-  color: var(--color-text);
+  color: var(--color-background);
   font-size: large;
 }
 .Userbar{
   position: fixed;
-  top: 0px;
-  right: 0px;
-  background-color: var(--color-background);
+  top: 100vh;
+  right: 50vw;
+  width: 400px;
+  height: 50px;
+  transform: translate(200px,-50px);
+  background-color: transparent;
   padding-left: 20px;
   padding-right: 5px;
-  border-radius: 0px 0px 0px 10px;
+  border-radius: 10px 10px 0px 00px;
   display: flex;
-  gap: 10px;
-  color: var(--color-text);
+  gap: 20px;
+  align-items: center;
+  color: var(--color-background);
   z-index: 10;
+  flex-wrap: wrap;
+  border: 2px solid var(--color-background);
+  border-bottom: none;
+  justify-content: space-between;
+}
+
+.Userbar .sign-out{
+  display: flex;
+  align-items: center;
+  gap:5px;
+  height: 30px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.Userbar .sign-out:hover{
+  color: red;
 }
 .App{
   width: 100vw;
   height: 100vh;
-  background-color: var(--color-accent);
+  background: linear-gradient(180deg, rgb(22, 118, 163) 0%, rgba(35,173,236,1) 100%);
   transition: 0.1s;
 }
 .App .home{
@@ -45,13 +96,14 @@
   position: absolute;
   width: 80vw;
   left: 10vw;
-  top: 30vh;
+  top: 35vh;
   gap: 50px;
+  flex-wrap: wrap;
 }
 .App .home .home-card{
   width: 250px;
   height: 350px;
-  background-color: var(--color-background);
+  background-color: transparent;
   border-radius: 10px;
   
   display: flex;
@@ -64,8 +116,9 @@
   text-align: center;
   font-weight: 600;
 
-  color: var(--color-accent);
+  color: white;
   transition: 0.3s;
+  animation: card-anim 5s linear infinite;
 }
 .App .home .home-card:hover{
   border: 1px var(--color-background) solid;
@@ -77,43 +130,6 @@
 }
 .App .home .home-card p{
   font-size: 32px;
-}
-.App .sidebar{
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  width: 200px;
-  height: 100vh;
-  left: -200px;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  gap: 5px;
-  padding-right: 50px;
-  border-radius: 0px 20px 20px 0px;
-  transition: 0.3s;
-  z-index: 10;
-  box-shadow: 2px 0px 25px var(--color-dark);
-}
-.App .sidebar:hover{
-  left: 0px;
-  padding-right: 0px;
-}
-.App .sidebar .menu-link{
-  display: flex;
-  flex-direction: row;
-  height: 40px;
-  gap: 10px;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.3s;
-  border-radius: 0px 10px 10px 0px;
-  padding-left: 10px;
-}
-.App .sidebar .menu-link:hover{
-  background-color: var(--color-accent);
-}
-.App .sidebar .menu-link.logout:hover{
-  background-color: rgb(211, 77, 77);
 }
 .App .menu{
   animation: menu-open 0.5s linear;
@@ -219,7 +235,7 @@
 .Login{
   width: 100vw;
   height: 100vh;
-  background-color: var(--color-accent);
+  background: linear-gradient(90deg, rgba(6,97,140,1) 0%, rgba(35,173,236,1) 100%);
 }
 .Login .news{
   position: absolute;
@@ -238,6 +254,7 @@
   flex-basis: 100%;  /* Ensure it breaks the flex row */
   padding: 10px;
   border-radius: 10px;
+  color: var(--color-accent);
 }
 .Login .news .news-card{
   width: 300px;
@@ -493,5 +510,33 @@ input:-webkit-autofill:active {
   100% {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+@keyframes back-button {
+  0%{
+    transform: translateX(0px);
+  }
+  25%{
+    transform: translateX(-10px);
+  }
+  50%{
+    transform: translateX(0px);
+  }
+  75%{
+    transform: translateX(-10px);
+  }
+  100%{
+    transform: translateX(0px);
+  }
+}
+@keyframes card-anim {
+  0% {
+    filter: none;
+  }
+  5% {
+    filter: drop-shadow(0px 0px 10px white);
+  }
+  10% {
+    filter: none;
   }
 }

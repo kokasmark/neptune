@@ -6,7 +6,7 @@ import callApi from './api';
 import utils from './utils';
 import Timer from './Timer';
 import { useNavigate } from "react-router-dom";
-
+import { VscSignOut } from "react-icons/vsc";
 const UserBarWrapper = () => {
     const navigate = useNavigate();
   
@@ -35,11 +35,19 @@ class UserBar extends Component
         }
         this.keepAlive();
     }
+    async logout(){
+        localStorage.removeItem("loggedIn")
+        window.location.reload()
+      }
     render(){
         return(
         <div className='Userbar'>
             <p>Bejelentkezve <b>{this.state.felh_neptunKod}</b></p>
             <Timer timerEnd={this.keepAlive}/>
+            <div className='sign-out' onClick={()=>this.logout()}>
+                <VscSignOut />
+                <p>Kijelentkezés</p>
+            </div>
         </div>);
     }
 }
