@@ -32,9 +32,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron .",
-    "package": "electron-packager .",
-    "electron-build": "electron-builder"
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -57,6 +56,7 @@
   "devDependencies": {
     "electron": "^32.0.2",
     "electron-builder": "^25.0.5",
-    "electron-packager": "^17.1.2"
+    "electron-packager": "^17.1.2",
+    "gh-pages": "^6.1.1"
   }
 }
