@@ -45,7 +45,7 @@ class Notes extends Component {
                 const title = result.value;
                 const newNote = {
                     title: title,
-                    content: "", // Start clean, can be edited later
+                    content: "[]", // Start clean, can be edited later
                     creationDate: new Date().toISOString()
                 };
 

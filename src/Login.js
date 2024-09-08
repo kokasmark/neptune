@@ -74,7 +74,7 @@ class Login extends Component {
 
     try {
       var d = JSON.parse(cleanedData);
-      if (d.success && localStorage.getItem("neptune-setting-2fa") == "true") {
+      if (d.success) {
         await Swal.fire({
           title: "Kétfaktoros hitelesítés",
           text: "Kérem írja be az authentikáló eszközén jelenleg érvényes 6 számjegyű tokent",
@@ -105,13 +105,7 @@ class Login extends Component {
         }else{
           Swal.fire({ text:"A megadott token formátuma hibás!", icon: "error" })
         }
-      }else if( localStorage.getItem("neptune-setting-2fa") == "false"){
-        await Swal.fire({ text: "Sikeres bejelenkezés!", icon: "success" })
-            this.setState({ loginSuccess: true })
-            localStorage.setItem("loggedIn",true)
-            const { navigate } = this.props;
-            navigate("/");
-      } 
+      }
       else {
         Swal.fire({ text: d.errormessage, icon: "error" })
       }

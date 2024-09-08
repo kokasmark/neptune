@@ -1,36 +1,48 @@
-function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
-  }
-  
-  // Function to make API calls
-  async function callApi(route,r, doc=false) {
-    
-    const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Cookie", `.ASPXAUTH=; ASP.NET_SessionId=wldswpdksw1fhs2kbgfkqdw0`);
 
-const raw = JSON.stringify(r);
+let cache = {};
+async function callApi(route, r, doc = false) {
 
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: raw,
-  redirect: "follow"
-};
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Cookie", `.ASPXAUTH=; ASP.NET_SessionId=wldswpdksw1fhs2kbgfkqdw0`);
 
-try {
-  const response = await fetch(`https://cors-anywhere.herokuapp.com/https://netw8.nnet.sze.hu/${route}`, requestOptions);
-  if(!doc){
-  const result = await response.json();
-  return result;
+  const raw = JSON.stringify(r);
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+
+  if(!cache[route]){
+    console.log(`${route} from neptun`)
+    try {
+      const response = await fetch(`${route}`, requestOptions);
+      var newCache = {json: [], doc: []}
+      
+      if (!doc) {
+        newCache.json = await response.json();
+        const result = newCache.json;
+        cache[route] = newCache;
+        return result;
+      } else {
+        newCache.doc = await response.text();
+        const result =newCache.doc;
+        cache[route] = newCache;
+        return result;
+      }
+      
+    } catch (error) {
+      console.log(error);
+    };
   }else{
-    const result = await response.text();
-  return result;
+    console.log(`${route} from cache`)
+    if (!doc) {
+      return cache[route].json;
+    } else {
+      return cache[route].doc;
+    }
   }
-} catch (error) {
-  return error;
-};
-  }
-  
-  export default callApi;
+}
+
+export default callApi;
