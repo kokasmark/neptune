@@ -30,7 +30,8 @@ class App extends Component {
   state={
     openedMenu: "",
     openedMenuData: [],
-    openedJegyzet:""
+    openedJegyzet:"",
+    censor: localStorage.getItem("neptune-setting-censor") ? localStorage.getItem("neptune-setting-censor") == "true" : false
   }
   async getFelhAdatok(){
     var r = await callApi("hallgato/main.aspx?ismenuclick=true&ctrl=0101","",true)
@@ -88,25 +89,16 @@ class App extends Component {
       })
   }
   changeDisplayMode(isDarkMode) {
-    // const root = document.documentElement;
-  
-    // if (isDarkMode) {
-
-    //   root.style.setProperty('--color-background', '--color-dark');
-    //   root.style.setProperty('--color-text', '--color-light');
-    //   root.style.setProperty('--color-accent', '--color-signal-dark');
-    // } else {
-    //   // Set light mode CSS variables
-    //   root.style.setProperty('--color-background', '--color-light');
-    //   root.style.setProperty('--color-text', '--color-dark');
-    //   root.style.setProperty('--color-accent', '--color-signal');
-    // }
+    
+  }
+  censorUserData(e){
+    this.setState({censor: e})
   }
   render(){
     const data = this.state.openedMenuData; 
     return (
       <div className="App" id="app">
-        <UserBarWrapper hidden={this.state.openedMenu != ""}/>
+        <UserBarWrapper hidden={this.state.openedMenu != ""} censor={this.state.censor}/>
         <img 
         src={require("./assets/logo-light.png")} 
         className="logo"
@@ -124,7 +116,7 @@ class App extends Component {
             {
               data.map((data,index) => (<div>
                 <p><b>{data.name.replace(":","")}</b></p>
-                <p><i>{data.value}</i></p>
+                <p style={{filter: this.state.censor ? "blur(5px)" : "none"}}><i>{data.value}</i></p>
               </div>))
             }
           </div>
@@ -198,6 +190,10 @@ class App extends Component {
           <div className='setting'>
             <p>Ékszakai Mód</p>
             <ToggleSwitch name={"night-mode"} defaultValue={false} onChange={this.changeDisplayMode()}/>
+          </div>
+          <div className='setting'>
+            <p>Személyes adatok elrejtése</p>
+            <ToggleSwitch name={"censor"} defaultValue={false} onChange={(e)=>this.censorUserData(e)}/>
           </div>
          </div>
         </div>}

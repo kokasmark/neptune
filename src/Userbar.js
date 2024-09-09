@@ -7,10 +7,9 @@ import utils from './utils';
 import Timer from './Timer';
 import { useNavigate } from "react-router-dom";
 import { VscSignOut } from "react-icons/vsc";
-const UserBarWrapper = ({ hidden }) => {
+const UserBarWrapper = ({ hidden,censor }) => {
     const navigate = useNavigate();
-    console.log(hidden)
-    return<UserBar hidden = {hidden} navigate={navigate} />;
+    return<UserBar hidden = {hidden} censor={censor} navigate={navigate} />;
   };
 class UserBar extends Component 
 {
@@ -22,7 +21,6 @@ class UserBar extends Component
         await callApi("hallgato/service.asmx/StayAlive","")
     }
     async componentDidMount(){
-        console.log("Token expired")
         var r = await callApi("hallgato/main.aspx?ismenuclick=true&ctrl=0101","",true)
         var data = await utils.extractUserData(r)
         if(data.length > 0){
@@ -44,7 +42,7 @@ class UserBar extends Component
         <div className={this.props.hidden==true ? 'Userbar hidden' : 'Userbar'}>
             <img 
         src={require("./assets/icon-light.png")} />
-            <p>Bejelentkezve <b>{this.state.felh_neptunKod}</b></p>
+            <p>Bejelentkezve <b style={{filter: this.props.censor ? "blur(5px)" : "none"}}>{this.state.felh_neptunKod}</b></p>
             <Timer timerEnd={this.keepAlive}/>
             <div className='sign-out' onClick={()=>this.logout()}>
                 <VscSignOut />
