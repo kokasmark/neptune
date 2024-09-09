@@ -198,31 +198,31 @@ class App extends Component {
          </div>
         </div>}
         {this.state.openedMenu == "" &&<div className='home menu'>
-              <div className='home-card' 
+              <div className='home-card' tabindex="1" 
               onClick={()=> this.getFelhAdatok()}
               style={{animationDelay: "0s"}}>
                 <FaUser />
                 <p>Felhasználói Adatok</p>
               </div>
-              <div className='home-card' 
+              <div className='home-card' tabindex="2"
               onClick={()=> this.getOrarend()}
               style={{animationDelay: "0.2s"}}>
               <FaCalendarCheck />
               <p>Órarend</p>
               </div>
-              <div className='home-card' 
+              <div className='home-card' tabindex="3"
               onClick={()=> this.getUzenetek()}
               style={{animationDelay: "0.4s"}}>
               <FaMessage />
               <p>Üzenetek</p>
               </div>
-              <div className='home-card' 
+              <div className='home-card' tabindex="4"
               onClick={()=> this.setState({openedMenu: "jegyzetek",openedJegyzet: ""})}
               style={{animationDelay: "0.6s"}}>
               <FaNoteSticky />
               <p>Jegyzetek</p>
               </div>
-              <div className='home-card' 
+              <div className='home-card' tabindex="5"
               onClick={()=> this.setState({openedMenu: "beallitasok"})}
               style={{animationDelay: "0.8s"}}>
               <FaGear />
