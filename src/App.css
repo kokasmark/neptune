@@ -103,8 +103,8 @@
   display: flex;
   justify-content: space-around;
   position: absolute;
-  width: 80vw;
-  left: 10vw;
+  width: 100vw;
+  left: 0vw;
   top: 35vh;
   gap: 50px;
   flex-wrap: wrap;
@@ -126,7 +126,7 @@
   font-weight: 600;
 
   color: white;
-  transition: 0.1s;
+  transition: 0.3s;
   animation: card-anim 5s linear infinite;
 }
 .App .home .home-card:hover{
