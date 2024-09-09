@@ -33,7 +33,7 @@ class UserBar extends Component
             const { navigate } = this.props; 
             navigate("/login");
         }
-        this.keepAlive();
+        //this.keepAlive();
     }
     async logout(){
         localStorage.removeItem("loggedIn")
@@ -41,7 +41,9 @@ class UserBar extends Component
       }
     render(){
         return(
-        <div className='Userbar'>
+        <div className={!this.props.hidden ? 'Userbar' : 'Userbar hidden'}>
+            <img 
+        src={require("./assets/icon-light.png")} />
             <p>Bejelentkezve <b>{this.state.felh_neptunKod}</b></p>
             <Timer timerEnd={this.keepAlive}/>
             <div className='sign-out' onClick={()=>this.logout()}>

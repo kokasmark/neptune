@@ -10,6 +10,7 @@ import { FaMessage } from "react-icons/fa6";
 import { FaGear } from "react-icons/fa6";
 import { FaNoteSticky } from "react-icons/fa6";
 import { IoArrowBack } from "react-icons/io5";
+import { FaCircle } from "react-icons/fa";
 
 import callApi from './api';
 import utils from './utils'
@@ -105,7 +106,7 @@ class App extends Component {
     const data = this.state.openedMenuData; 
     return (
       <div className="App" id="app">
-        <UserBarWrapper/>
+        <UserBarWrapper hidden={this.state.openedMenu != ""}/>
         <img 
         src={require("./assets/logo-light.png")} 
         className="logo"
@@ -114,7 +115,7 @@ class App extends Component {
         <div className='menu-felh-adatok menu'>
           <div className='back-to-menu' 
           onClick={()=>this.backToMenu()}
-          style={{transform: "translate(-50px,-45px)"}}>
+         >
             <IoArrowBack />
             <p>Vissza</p>
           </div>
@@ -140,11 +141,15 @@ class App extends Component {
           <Calendar localizer={localizer} 
             views={['month','work_week','day']}
             defaultView='work_week'
-            events={data} 
+            events={data.map(event => ({
+              ...event,
+              start: new Date(moment.utc(event.start).format("YYYY-MM-DDTHH:mm:ss")),
+              end: new Date(moment.utc(event.end).format("YYYY-MM-DDTHH:mm:ss")),
+            }))} 
             startAccessor="start"
             endAccessor="end" ref={this.calendarRef}
-            min={new Date('2024-09-07T08:00:00Z')} 
-            max={new Date('2024-09-07T20:00:00Z')}
+            min={new Date('2024-09-07T08:00:00')} 
+            max={new Date('2024-09-07T20:00:00')}
             onDoubleClickEvent={(e)=>this.classDetail(e)}
             />
 

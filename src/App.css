@@ -15,9 +15,10 @@
 }
 .logo{
   position: fixed;
-  height: 70vh;
-  left: 32vw;
-  top: -15vh;
+  width: 30vw;
+  height: 60vh;
+  left: 35vw;
+  top: -5vh;
   transition: 0.5s;
 }
 .back-to-menu{
@@ -31,7 +32,7 @@
   transition: 0.1s;
   margin: 0px;
   height: 30px;
-  width: 100px;
+  width: 200px;
   padding-left: 10px;
   padding-bottom: 5px;
   margin: 0px;
@@ -54,15 +55,13 @@
 }
 .Userbar{
   position: fixed;
-  top: 100vh;
-  right: 50vw;
-  width: 400px;
+  top: 0vh;
+  left: 0vw;
+  width: 425px;
   height: 50px;
-  transform: translate(200px,-50px);
   background-color: transparent;
-  padding-left: 20px;
-  padding-right: 5px;
-  border-radius: 10px 10px 0px 00px;
+  padding: 10px;
+  border-radius: 0px 0px 10px 0px;
   display: flex;
   gap: 20px;
   align-items: center;
@@ -70,10 +69,18 @@
   z-index: 10;
   flex-wrap: wrap;
   border: 2px solid var(--color-background);
-  border-bottom: none;
+  border-top: hidden;
+  border-left: none;
   justify-content: space-between;
-}
 
+  transition: 0.3s;
+}
+.Userbar.hidden{
+  transform: translateX(-425px);
+}
+.Userbar img{
+  height: 100%;
+}
 .Userbar .sign-out{
   display: flex;
   align-items: center;
@@ -90,9 +97,11 @@
   height: 100vh;
   background: linear-gradient(180deg, rgb(22, 118, 163) 0%, rgba(35,173,236,1) 100%);
   transition: 0.1s;
+  user-select: none;
 }
 .App .home{
   display: flex;
+  justify-content: space-around;
   position: absolute;
   width: 80vw;
   left: 10vw;
@@ -117,7 +126,7 @@
   font-weight: 600;
 
   color: white;
-  transition: 0.3s;
+  transition: 0.1s;
   animation: card-anim 5s linear infinite;
 }
 .App .home .home-card:hover{
@@ -204,24 +213,25 @@
 .App .menu-felh-adatok{
   background-color: var(--color-background);
   width: 70vw;
-  height: 60vh;
+  height: fit-content;
   position: absolute;
-  left: 10vw;
+  left: 15vw;
   top: 20vh;
-  padding: 20px 100px 20px 50px;
+  padding: 10px;
   border-radius: 10px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 50px;
+  gap: 10px;
   color: var(--color-text);
 }
 .App .menu-felh-adatok .data{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  height: 65vh;
-  gap: 5px;
+  height: 50vh;
+  gap: 10px;
 }
 .App .menu-felh-adatok .data div
 {
@@ -249,12 +259,13 @@
   flex-wrap: wrap;
 }
 .Login .news h1 {
-  background-color: var(--color-background);
+  background-color: var(--color-signal);
   width: 100%;  /* Make the h1 take up the entire row */
   flex-basis: 100%;  /* Ensure it breaks the flex row */
   padding: 10px;
   border-radius: 10px;
-  color: var(--color-accent);
+  border: 1px var(--color-background) solid;
+  color: var(--color-light);
 }
 .Login .news .news-card{
   width: 300px;
@@ -379,7 +390,7 @@ input:-webkit-autofill:active {
   border-radius: 10px;
   background-color: var(--color-background);
 }
-.Notes h1{
+h1{
   width: 100%;
   text-align: center;
   border-bottom: 2px var(--color-accent) solid;

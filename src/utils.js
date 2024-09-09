@@ -40,18 +40,28 @@ async function extractUserData(htmlString) {
   }
 
 
-async function extractTable(data){
+  async function extractTable(data) {
     return data.events.filter(x => !x.allday).map(x => {
-        const startdate = new Date(moment.unix(x.startdate.slice(6, 19) / 1000).format("YYYY-MM-DD HH:mm:ss"))
-        const enddate = new Date(moment.unix(x.enddate.slice(6, 19) / 1000).format("YYYY-MM-DD HH:mm:ss"))
-        const title = x.title.slice(6, x.title.indexOf('(') - 1)
-    
-        const _teacherTmp = x.title.slice(x.title.indexOf('-'))
-        const teachers = _teacherTmp.slice(_teacherTmp.indexOf('(') + 1, _teacherTmp.indexOf(')')).split(';')
-    
-        return {location: x.location, title: title, teachers: teachers, start: startdate, end: enddate}
-    })
+        // Convert to UTC using moment
+        const startdate = moment.utc(parseInt(x.startdate.slice(6, 19))).toDate(); // UTC
+        const enddate = moment.utc(parseInt(x.enddate.slice(6, 19))).toDate();     // UTC
+
+        // Extract title and teachers
+        const title = x.title.slice(6, x.title.indexOf('(') - 1);
+        const _teacherTmp = x.title.slice(x.title.indexOf('-'));
+        const teachers = _teacherTmp.slice(_teacherTmp.indexOf('(') + 1, _teacherTmp.indexOf(')')).split(';');
+
+        return {
+            location: x.location,
+            title: title,
+            teachers: teachers,
+            start: startdate, // UTC
+            end: enddate      // UTC
+        };
+    });
 }
+
+
 function extractMessages(htmlString) {
     // Create a DOM parser
     const parser = new DOMParser();
