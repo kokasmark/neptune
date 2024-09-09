@@ -81,14 +81,25 @@
 .Userbar img{
   height: 100%;
 }
+.Userbar:hover .sign-out{
+  opacity: 1;
+}
+.Userbar:hover .sign-out p{
+  opacity: 1 !important;
+}
+.Userbar:hover p{
+  opacity: 0;
+}
 .Userbar .sign-out{
-  visibility: hidden;
+  opacity: 0;
+  font-size: 18px;
   width: 100%;
   margin-left: 75px;
   display: flex;
   align-items: center;
   gap:5px;
   height: 30px;
+  transform: translateY(-40px);
   cursor: pointer;
   transition: 0.2s;
 }
@@ -261,7 +272,7 @@
 .Login .news{
   position: absolute;
   width: 60vw;
-  left: 30vw;
+  left: 35vw;
   top: 20vh;
   height: fit-content;
   display: flex;
@@ -313,6 +324,7 @@ display: block;
   padding-left: 75px;
   padding-right: 75px;
   border-radius: 0px 20px 20px 0px;
+  box-shadow: 10px 0px 50px var(--color-dark);
 }
 
 .Login .inputs img{
