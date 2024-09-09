@@ -76,7 +76,7 @@
   transition: 0.3s;
 }
 .Userbar.hidden{
-  transform: translateX(-425px);
+  transform: translateX(-450px);
 }
 .Userbar img{
   height: 100%;

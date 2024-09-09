@@ -7,10 +7,10 @@ import utils from './utils';
 import Timer from './Timer';
 import { useNavigate } from "react-router-dom";
 import { VscSignOut } from "react-icons/vsc";
-const UserBarWrapper = () => {
+const UserBarWrapper = ({ hidden }) => {
     const navigate = useNavigate();
-  
-    return<UserBar navigate={navigate} />;
+    console.log(hidden)
+    return<UserBar hidden = {hidden} navigate={navigate} />;
   };
 class UserBar extends Component 
 {
@@ -41,7 +41,7 @@ class UserBar extends Component
       }
     render(){
         return(
-        <div className={!this.props.hidden ? 'Userbar' : 'Userbar hidden'}>
+        <div className={this.props.hidden==true ? 'Userbar hidden' : 'Userbar'}>
             <img 
         src={require("./assets/icon-light.png")} />
             <p>Bejelentkezve <b>{this.state.felh_neptunKod}</b></p>
